@@ -19,7 +19,6 @@ find_package(rosidl_default_generators REQUIRED)
 set(msg_files
   "msg/BoundingBox.msg"
   "msg/PanTilt.msg"
-  "msg/Detections.msg"
 )
 
 # 인터페이스 생성

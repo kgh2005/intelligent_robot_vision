@@ -3,9 +3,11 @@
 RefinerNode::RefinerNode() : Node("refiner_node")
 {
   bbox_sub_ = this->create_subscription<intelligent_robot_vision::msg::BoundingBox>(
-      "/Bounding_box",
-      10,
+      "/Bounding_box", 10,
       std::bind(&RefinerNode::bboxCallback, this, std::placeholders::_1));
+  pan_tilt_sub_ = this->create_subscription<intelligent_robot_vision::msg::PanTilt>(
+      "/PanTilt", 10,
+      std::bind(&RefinerNode::pan_tilt_Callback, this, std::placeholders::_1));
   image_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
       "/camera/realsense/color/image_raw", 10,
       std::bind(&RefinerNode::imageCallback, this, std::placeholders::_1));
@@ -79,9 +81,9 @@ void RefinerNode::bboxProcessing()
     cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
     float distance_2d = dist2D(u, v);            // 2D 거리
 
-    // RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
-    // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
-    // RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
+    RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
+    RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
+    RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
   }
   if (Detections_goal_.size() > 0)
   {

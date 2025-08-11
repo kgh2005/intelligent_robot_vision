@@ -30,61 +30,6 @@ RefinerNode::RefinerNode() : Node("refiner_node")
   RCLCPP_INFO(this->get_logger(), "RefinerNode initialized.");
 }
 
-// cv::Point3f RefinerNode::image2CameraCoords(int u, int v, float depth_m)
-// {
-//   if (depth_m <= 0.0f)
-//     return cv::Point3f(NAN, NAN, NAN);
-
-//   cv::Mat K_inv = K_M.inv();
-//   cv::Mat uv1 = (cv::Mat_<double>(3, 1) << u, v, 1.0);
-//   cv::Mat cam_coords = K_inv * uv1 * depth_m;
-
-//   return cv::Point3f(
-//       static_cast<float>(cam_coords.at<double>(0)),
-//       static_cast<float>(cam_coords.at<double>(1)),
-//       static_cast<float>(cam_coords.at<double>(2)));
-// }
-
-// cv::Point3f DetectionNode::computeObjectPosition(const cv::Rect &bbox)
-// {
-//   cv::Point3f sum(0, 0, 0);
-//   int valid_count = 0;
-
-//   std::lock_guard<std::mutex> lock(depth_mutex_);
-
-//   if (latest_depth_.empty())
-//     return cv::Point3f(NAN, NAN, NAN);
-
-//   // 중심 찾기
-//   for (int y = bbox.y; y < bbox.y + bbox.height; ++y)
-//   {
-//     for (int x = bbox.x; x < bbox.x + bbox.width; ++x)
-//     {
-//       if (x < 0 || y < 0 || x >= latest_depth_.cols || y >= latest_depth_.rows)
-//         continue;
-
-//       uint16_t depth_mm = latest_depth_.at<uint16_t>(y, x);
-//       float depth_m = depth_mm * 0.001f;
-
-//       if (depth_m <= 0.0f)
-//         continue;
-
-//       cv::Point3f pt3d = image2CameraCoords(x, y, depth_m);
-
-//       if (!std::isnan(pt3d.x))
-//       {
-//         sum += pt3d;
-//         valid_count++;
-//       }
-//     }
-//   }
-
-//   if (valid_count == 0)
-//     return cv::Point3f(NAN, NAN, NAN);
-
-//   return sum * (1.0f / valid_count);
-// }
-
 cv::Point3f RefinerNode::pixelToCamCoords(int u, int v)
 {
   // float depth = latest_depth_.at<uint16_t>(v, u) * 0.001f; // m

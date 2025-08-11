@@ -68,6 +68,4 @@ private:
   // ===== 좌표 =====
   cv::Point3f pixelToCamCoords(int u, int v);
   float groundDistance(const cv::Point3f &cam_pt);
-  // cv::Point3f computeObjectPosition(const cv::Rect &bbox);
-  // cv::Point3f image2CameraCoords(int u, int v, float depth_m);
 };

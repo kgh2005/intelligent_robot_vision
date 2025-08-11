@@ -14,7 +14,10 @@ void PanTiltNode::pan_tilt_publish()
 
   pan_tilt.pan = pan_Pos_;
   pan_tilt.tilt = tilt_Pos_;
-  pan_tilt_pub_ -> publish(pan_tilt);
+  pan_tilt_pub_->publish(pan_tilt);
+
+  // RCLCPP_INFO(this->get_logger(), "========== Pan_Tilt ==========");
+  // RCLCPP_INFO(this->get_logger(), "Pan: %d, Tilt: %d", pan_Pos_, tilt_Pos_);
 }
 
 void PanTiltNode::pan_tilt_mode()
@@ -25,6 +28,7 @@ void PanTiltNode::pan_tilt_mode()
   {
     pan_Pos_ = 0;
     tilt_Pos_ = 45;
+    pan_tilt_publish();
     break;
   }
 
@@ -32,6 +36,7 @@ void PanTiltNode::pan_tilt_mode()
   {
     pan_Pos_ = 0;
     tilt_Pos_ = 45;
+    pan_tilt_publish();
     break;
   }
 
@@ -39,6 +44,7 @@ void PanTiltNode::pan_tilt_mode()
   {
     pan_Pos_ = 0;
     tilt_Pos_ = 0;
+    pan_tilt_publish();
     break;
   }
 
@@ -46,15 +52,15 @@ void PanTiltNode::pan_tilt_mode()
   {
     pan_Pos_ = 0;
     tilt_Pos_ = 90;
+    pan_tilt_publish();
     break;
   }
 
   default:
+    RCLCPP_ERROR(this->get_logger(), "===== Pan_Tilt ERROR!! =====");
     break;
   }
 }
-
-
 
 int main(int argc, char **argv)
 {

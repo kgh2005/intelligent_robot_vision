@@ -122,7 +122,7 @@ void DetectionNode::imageProcessing()
 
     if (class_id == LAPTOP_CLASS_ID)
     {
-      class_id -= 60;
+      class_id -= 63;
     }
     else
     {
@@ -140,10 +140,10 @@ void DetectionNode::imageProcessing()
     // 저장
     bbox.class_ids.push_back(class_id);
     bbox.score.push_back(confidence);
-    bbox.x1.push_back(static_cast<float>(bx1));
-    bbox.y1.push_back(static_cast<float>(by1));
-    bbox.x2.push_back(static_cast<float>(bx2));
-    bbox.y2.push_back(static_cast<float>(by2));
+    bbox.x1.push_back(bx1);
+    bbox.y1.push_back(by1);
+    bbox.x2.push_back(bx2);
+    bbox.y2.push_back(by2);
     // 시각화
     cv::Point pt1(bx1, by1);
     cv::Point pt2(bx2, by2);

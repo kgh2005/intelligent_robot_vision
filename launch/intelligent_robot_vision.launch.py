@@ -20,6 +20,7 @@ def generate_launch_description():
             {'camera_name': 'camera'},
             {'publish_tf': True},
             {'align_depth.enable': True},
+            {'depth.align_to': 'color'},
             {'enable_color': True},
             {'enable_depth': True},
             {'enable_sync': True},
@@ -39,7 +40,23 @@ def generate_launch_description():
         ]
     )
 
+    refiner_node = Node(
+        package='intelligent_robot_vision',
+        executable='refiner_node',
+        name='refiner_node',
+        output='screen'
+    )
+
+    pan_tilt_node = Node(
+        package='intelligent_robot_vision',
+        executable='pan_tilt_node',
+        name='pan_tilt_node',
+        output='screen'
+    )
+
     return LaunchDescription([
         realsense_node,
-        detection_node
+        detection_node,
+        refiner_node,
+        pan_tilt_node
     ])

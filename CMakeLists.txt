@@ -18,7 +18,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 set(msg_files
   "msg/BoundingBox.msg"
-  "msg/Detection.msg"
+  "msg/PanTilt.msg"
   "msg/Detections.msg"
 )
 
@@ -58,6 +58,46 @@ target_link_libraries(detection_node
 
 install(TARGETS
   detection_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+# ============================================================
+add_executable(refiner_node
+  src/refiner/refiner_node.cpp
+)
+
+ament_target_dependencies(refiner_node
+  rclcpp
+  sensor_msgs
+  cv_bridge
+  std_msgs
+)
+
+target_link_libraries(refiner_node
+  ${OpenCV_LIBRARIES}
+  "${cpp_typesupport_target}"
+)
+
+install(TARGETS
+  refiner_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+# ============================================================
+add_executable(pan_tilt_node
+  src/pan_tilt/pan_tilt_node.cpp
+)
+
+ament_target_dependencies(pan_tilt_node
+  rclcpp
+  std_msgs
+)
+
+target_link_libraries(pan_tilt_node
+  ${OpenCV_LIBRARIES}
+  "${cpp_typesupport_target}"
+)
+
+install(TARGETS
+  pan_tilt_node
   DESTINATION lib/${PROJECT_NAME}
 )
 # ============================================================

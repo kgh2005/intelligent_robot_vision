@@ -1,2 +1,0 @@
-int32 class_name
-BoundingBox bounding_box

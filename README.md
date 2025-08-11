@@ -9,7 +9,7 @@ The package includes the following nodes:
 - **realsense_node**: Captures RGB and depth data from the RealSense D435.
 - **detection_node**: Runs object detection using a YOLO model.
 - **refiner_node**: Refines detection results and performs additional processing.
-- **pantilt_node**: Controls the pan-tilt mechanism for the camera.
+- **pan_tilt_node**: Controls the pan-tilt mechanism for the camera.
 
 ## Requirements
 
@@ -22,18 +22,6 @@ The package includes the following nodes:
 
 ```bash
 colcon build --packages-select intelligent_robot_vision
-```
-
-## Setup Environment
-
-```bash
-source ~/.bashrc
-```
-
-Make sure your ROS 2 workspace setup is also sourced (if not already in `~/.bashrc`):
-
-```bash
-source ~/colcon_ws/install/setup.bash
 ```
 
 ## Run

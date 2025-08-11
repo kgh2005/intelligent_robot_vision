@@ -36,9 +36,6 @@ private:
 
   cv::Mat bgr_image;
 
-  cv::Mat latest_depth_;
-  std::mutex depth_mutex_;
-
   const int LAPTOP_CLASS_ID = 63;
 
   // OpenVINO 엔진

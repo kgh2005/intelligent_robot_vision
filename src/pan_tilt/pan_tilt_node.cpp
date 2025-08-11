@@ -18,6 +18,7 @@ void PanTiltNode::pan_tilt_publish()
 
   // RCLCPP_INFO(this->get_logger(), "========== Pan_Tilt ==========");
   // RCLCPP_INFO(this->get_logger(), "Pan: %d, Tilt: %d", pan_Pos_, tilt_Pos_);
+  // RCLCPP_INFO(this->get_logger(), " ");
 }
 
 void PanTiltNode::pan_tilt_mode()

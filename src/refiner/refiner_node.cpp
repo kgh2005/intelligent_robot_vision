@@ -84,6 +84,7 @@ void RefinerNode::bboxProcessing()
     RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
     RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
     RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
+    RCLCPP_INFO(this->get_logger(), " ");
   }
   if (Detections_goal_.size() > 0)
   {
@@ -98,6 +99,7 @@ void RefinerNode::bboxProcessing()
     // RCLCPP_INFO(this->get_logger(), "========== goal ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
     // RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
+    // RCLCPP_INFO(this->get_logger(), " ");
   }
   if (Detections_hurdle_.size() > 0)
   {
@@ -112,6 +114,7 @@ void RefinerNode::bboxProcessing()
     // RCLCPP_INFO(this->get_logger(), "========== Hurdle ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
     // RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
+    // RCLCPP_INFO(this->get_logger(), " ");
   }
   if (Detections_line_.size() > 0)
   {
@@ -139,6 +142,7 @@ void RefinerNode::bboxProcessing()
     // RCLCPP_INFO(this->get_logger(), "========== Line ==========");
     // RCLCPP_INFO(this->get_logger(), "Line_delta: %f", line_delta);
     // RCLCPP_INFO(this->get_logger(), "X: %f, Y: %f", pt2.x, pt2.y);
+    // RCLCPP_INFO(this->get_logger(), " ");
   }
 
   cv::imshow("Line", bgr_image);

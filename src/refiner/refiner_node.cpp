@@ -52,12 +52,18 @@ float RefinerNode::groundDistance(const cv::Point3f &cam_pt)
       1, 0, 0,
       0, cos(tilt_rad), -sin(tilt_rad),
       0, sin(tilt_rad), cos(tilt_rad)};
-  cv::Point3f world_pt = R * cam_pt;
+
+  cv::Matx33f P = {
+      0, 0, 1, // x' = z
+      0, 1, 0, // y' = y
+      1, 0, 0  // z' = x
+  };
+  cv::Point3f world_pt = P * (R * cam_pt);
 
   // // 3. 바닥면 2D 거리 (X-Z 평면)
   // float distance_2d = std::sqrt(world_pt.x * world_pt.x + world_pt.z * world_pt.z);
 
-  return std::fabs(world_pt.z);
+  return std::fabs(world_pt.x);
 }
 
 float RefinerNode::dist2D(int u, int v)

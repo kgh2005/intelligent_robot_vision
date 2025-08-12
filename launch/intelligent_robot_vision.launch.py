@@ -7,7 +7,7 @@ def generate_launch_description():
     model_path = os.path.join(
         get_package_share_directory('intelligent_robot_vision'),
         'model',
-        'yolo11n.xml'
+        'best.xml'
     )
 
     # Realsense 카메라 노드 (단일 노드)

@@ -10,7 +10,7 @@ public:
 
 private:
   int pan_Pos_ = 0, tilt_Pos_ = 0;
-  int mode = 0;
+  int mode = 2;
 
   // ===== ROS 통신 =====
   //rclcpp::Publisher<dynamixel_rdk_msgs::msg::DynamixelMsgs>::SharedPtr Motor_Pub;

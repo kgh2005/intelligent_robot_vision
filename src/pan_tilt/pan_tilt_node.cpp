@@ -52,7 +52,7 @@ void PanTiltNode::pan_tilt_mode()
   case 3: // 허들 - 트레킹모드 - tilt 90도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 90;
+    tilt_Pos_ = -90;
     pan_tilt_publish();
     break;
   }

@@ -120,15 +120,6 @@ void DetectionNode::imageProcessing()
       continue;
     }
 
-    if (class_id == LAPTOP_CLASS_ID)
-    {
-      class_id -= 63;
-    }
-    else
-    {
-      continue;
-    }
-
     float threshold = 0.5f;
     threshold = CONFIDENCE_THRESHOLDS.at(class_id);
 

@@ -54,10 +54,10 @@ float RefinerNode::groundDistance(const cv::Point3f &cam_pt)
       0, sin(tilt_rad), cos(tilt_rad)};
   cv::Point3f world_pt = R * cam_pt;
 
-  // 3. 바닥면 2D 거리 (X-Z 평면)
-  float distance_2d = std::sqrt(world_pt.x * world_pt.x + world_pt.z * world_pt.z);
+  // // 3. 바닥면 2D 거리 (X-Z 평면)
+  // float distance_2d = std::sqrt(world_pt.x * world_pt.x + world_pt.z * world_pt.z);
 
-  return distance_2d;
+  return std::fabs(world_pt.z);
 }
 
 float RefinerNode::dist2D(int u, int v)
@@ -80,6 +80,8 @@ void RefinerNode::bboxProcessing()
 
     cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
     float distance_2d = dist2D(u, v);            // 2D 거리
+
+    cv::circle(bgr_image, cv::Point(u, v), 2, cv::Scalar(0, 255, 0), -1);
 
     RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
     RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
@@ -145,7 +147,7 @@ void RefinerNode::bboxProcessing()
     // RCLCPP_INFO(this->get_logger(), " ");
   }
 
-  cv::imshow("Line", bgr_image);
+  cv::imshow("refiner", bgr_image);
   cv::waitKey(1);
 }
 

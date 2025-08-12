@@ -16,6 +16,8 @@ find_package(std_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
+find_package(intelligent_humanoid_interfaces REQUIRED)
+
 set(msg_files
   "msg/BoundingBox.msg"
   "msg/PanTilt.msg"
@@ -69,6 +71,7 @@ ament_target_dependencies(refiner_node
   sensor_msgs
   cv_bridge
   std_msgs
+  intelligent_humanoid_interfaces
 )
 
 target_link_libraries(refiner_node
@@ -88,6 +91,7 @@ add_executable(pan_tilt_node
 ament_target_dependencies(pan_tilt_node
   rclcpp
   std_msgs
+  intelligent_humanoid_interfaces
 )
 
 target_link_libraries(pan_tilt_node

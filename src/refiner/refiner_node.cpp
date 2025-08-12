@@ -2,6 +2,7 @@
 
 RefinerNode::RefinerNode() : Node("refiner_node")
 {
+  vision_pub_ = this->create_publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>("/vision/data", 10);
   bbox_sub_ = this->create_subscription<intelligent_robot_vision::msg::BoundingBox>(
       "/Bounding_box", 10,
       std::bind(&RefinerNode::bboxCallback, this, std::placeholders::_1));
@@ -89,6 +90,12 @@ void RefinerNode::bboxProcessing()
 
     cv::circle(bgr_image, cv::Point(u, v), 2, cv::Scalar(0, 255, 0), -1);
 
+    vision.ball_dist = distance_2d;
+
+    vision.ball_cam_x = cam_pt.x;
+    vision.ball_cam_y = cam_pt.y;
+    vision.ball_cam_z = cam_pt.z;
+
     RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
     RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
     RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
@@ -104,6 +111,11 @@ void RefinerNode::bboxProcessing()
     cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
     float distance_2d = dist2D(u, v);            // 2D 거리
 
+    vision.goal_dist = distance_2d;
+
+    vision.goal_cam_x = cam_pt.x;
+    vision.goal_cam_y = cam_pt.y;
+
     // RCLCPP_INFO(this->get_logger(), "========== goal ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
     // RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
@@ -118,6 +130,11 @@ void RefinerNode::bboxProcessing()
 
     cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
     float distance_2d = dist2D(u, v);            // 2D 거리
+
+    vision.hurdle_dist = distance_2d;
+
+    vision.hurdle_cam_x = cam_pt.x;
+    vision.hurdle_cam_y = cam_pt.y;
 
     // RCLCPP_INFO(this->get_logger(), "========== Hurdle ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
@@ -147,11 +164,19 @@ void RefinerNode::bboxProcessing()
 
     cv::line(bgr_image, pt1, pt2, cv::Scalar(255, 0, 0), 10);
 
+    vision.line_delta = line_delta;
+
+    vision.line_cam_x = pt2.x;
+    vision.line_cam_y = pt2.y;
+
     // RCLCPP_INFO(this->get_logger(), "========== Line ==========");
     // RCLCPP_INFO(this->get_logger(), "Line_delta: %f", line_delta);
     // RCLCPP_INFO(this->get_logger(), "X: %f, Y: %f", pt2.x, pt2.y);
     // RCLCPP_INFO(this->get_logger(), " ");
   }
+
+  vision_pub_->publish(vision);
+  vision = intelligent_humanoid_interfaces::msg::Vision2MasterMsg{};
 
   cv::imshow("refiner", bgr_image);
   cv::waitKey(1);

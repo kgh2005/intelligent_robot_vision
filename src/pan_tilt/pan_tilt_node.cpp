@@ -4,14 +4,14 @@ PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
 {
   // Motor_Pub = this->create_publisher<dynamixel_rdk_msgs::msg::DynamixelMsgs>("pan_tilt_dxl", 10);
   pan_tilt_pub_ = this->create_publisher<intelligent_robot_vision::msg::PanTilt>("/PanTilt", 10);
-
+  pan_tilt_sub_ = this->create_subscription<intelligent_humanoid_interfaces::msg::Master2VisionMsg>(
+      "/master/pan_tilt", 10,
+      std::bind(&PanTiltNode::pantiltCallback, this, std::placeholders::_1));
   RCLCPP_INFO(this->get_logger(), "pan_tilt_node started.");
 }
 
 void PanTiltNode::pan_tilt_publish()
 {
-  intelligent_robot_vision::msg::PanTilt pan_tilt;
-
   pan_tilt.pan = pan_Pos_;
   pan_tilt.tilt = tilt_Pos_;
   pan_tilt_pub_->publish(pan_tilt);
@@ -61,6 +61,12 @@ void PanTiltNode::pan_tilt_mode()
     RCLCPP_ERROR(this->get_logger(), "===== Pan_Tilt ERROR!! =====");
     break;
   }
+}
+
+void PanTiltNode::pantiltCallback(const intelligent_humanoid_interfaces::msg::Master2VisionMsg::SharedPtr msg)
+{
+  mode = msg->tilt;
+  pan_tilt_mode();
 }
 
 int main(int argc, char **argv)

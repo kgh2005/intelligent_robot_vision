@@ -12,6 +12,7 @@
 #include "utils/utils.hpp"
 #include "intelligent_robot_vision/msg/bounding_box.hpp"
 #include "intelligent_robot_vision/msg/pan_tilt.hpp"
+#include <intelligent_humanoid_interfaces/msg/vision2_master_msg.hpp>
 
 struct DetectionResult
 {
@@ -54,6 +55,9 @@ private:
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
   rclcpp::Subscription<intelligent_robot_vision::msg::BoundingBox>::SharedPtr bbox_sub_;
   rclcpp::Subscription<intelligent_robot_vision::msg::PanTilt>::SharedPtr pan_tilt_sub_;
+
+  intelligent_humanoid_interfaces::msg::Vision2MasterMsg vision;
+  rclcpp::Publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>::SharedPtr vision_pub_;
 
   // ===== Callback =====
   void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr msg);

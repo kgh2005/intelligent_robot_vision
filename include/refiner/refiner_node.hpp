@@ -14,6 +14,8 @@
 #include "intelligent_robot_vision/msg/pan_tilt.hpp"
 #include <intelligent_humanoid_interfaces/msg/vision2_master_msg.hpp>
 
+#include <visualization_msgs/msg/marker.hpp>
+
 struct DetectionResult
 {
   int class_id;
@@ -59,6 +61,8 @@ private:
   intelligent_humanoid_interfaces::msg::Vision2MasterMsg vision;
   rclcpp::Publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>::SharedPtr vision_pub_;
 
+  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
+
   // ===== Callback =====
   void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr msg);
   void depthCallback(const sensor_msgs::msg::Image::ConstSharedPtr msg);
@@ -72,4 +76,6 @@ private:
   // ===== 좌표 =====
   cv::Point3f pixelToCamCoords(int u, int v);
   float groundDistance(const cv::Point3f &cam_pt);
+
+  void publishBallMarkerWorldMm(const cv::Point3f &world_mm, const std::string &world_frame);
 };

@@ -30,8 +30,8 @@ def generate_launch_description():
             {'enable_pointcloud': False},
             {'enable_depth_metadata': False},
             {'enable_color_metadata': False},
-            {'depth_module.depth_profile': '848x480x30'},
-            {'rgb_camera.color_profile': '848x480x30'},
+            {'depth_module.depth_profile': '640x480x30'},
+            {'rgb_camera.color_profile': '640x480x30'},
         ]
     )
 

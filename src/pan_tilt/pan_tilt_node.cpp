@@ -28,7 +28,7 @@ void PanTiltNode::pan_tilt_mode()
   case 0: // init
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 45;
+    tilt_Pos_ = -55;
     pan_tilt_publish();
     break;
   }
@@ -36,7 +36,7 @@ void PanTiltNode::pan_tilt_mode()
   case 1: // 공 - 트레킹모드 - tilt 45도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 45;
+    tilt_Pos_ = -55;
     pan_tilt_publish();
     break;
   }
@@ -52,7 +52,7 @@ void PanTiltNode::pan_tilt_mode()
   case 3: // 허들 - 트레킹모드 - tilt 90도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = -90;
+    tilt_Pos_ = -80;
     pan_tilt_publish();
     break;
   }

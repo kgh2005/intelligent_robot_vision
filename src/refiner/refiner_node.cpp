@@ -2,6 +2,8 @@
 
 RefinerNode::RefinerNode() : Node("refiner_node")
 {
+  marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("ball_marker", 10);
+
   vision_pub_ = this->create_publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>("/vision/data", 10);
   bbox_sub_ = this->create_subscription<intelligent_robot_vision::msg::BoundingBox>(
       "/Bounding_box", 10,
@@ -33,6 +35,37 @@ RefinerNode::RefinerNode() : Node("refiner_node")
   RCLCPP_INFO(this->get_logger(), "RefinerNode initialized.");
 }
 
+void RefinerNode::publishBallMarkerWorldMm(const cv::Point3f &world_mm, const std::string &world_frame)
+{
+  visualization_msgs::msg::Marker marker;
+  marker.header.frame_id = world_frame;
+  marker.header.stamp = rclcpp::Time(0);
+  marker.ns = "ball";
+  marker.id = 0;
+  marker.type = visualization_msgs::msg::Marker::SPHERE;
+  marker.action = visualization_msgs::msg::Marker::ADD;
+
+  // mm -> m
+  marker.pose.position.x = world_mm.x / 1000.0;
+  marker.pose.position.y = world_mm.y / 1000.0;
+  marker.pose.position.z = world_mm.z / 1000.0;
+
+  marker.pose.orientation.w = 1.0;
+
+  // 구 크기 (m)
+  marker.scale.x = 0.10;
+  marker.scale.y = 0.10;
+  marker.scale.z = 0.10;
+
+  // 색상
+  marker.color.a = 1.0;
+  marker.color.r = 1.0;
+  marker.color.g = 0.0;
+  marker.color.b = 0.0;
+
+  marker_pub_->publish(marker);
+}
+
 cv::Point3f RefinerNode::pixelToCamCoords(int u, int v)
 {
   // float depth = latest_depth_.at<uint16_t>(v, u) * 0.001f; // m
@@ -42,6 +75,7 @@ cv::Point3f RefinerNode::pixelToCamCoords(int u, int v)
   float x = (u - cx) * depth / fx;
   float y = (v - cy) * depth / fy;
   float z = depth;
+
   return {x, y, z};
 }
 
@@ -54,15 +88,19 @@ float RefinerNode::groundDistance(const cv::Point3f &cam_pt)
       0, cos(tilt_rad), -sin(tilt_rad),
       0, sin(tilt_rad), cos(tilt_rad)};
 
+  // world.x = cam.z, world.y = -cam.x, world.z = -cam.y
   cv::Matx33f P = {
-      0, 0, 1, // x' = z
-      0, 1, 0, // y' = y
-      1, 0, 0  // z' = x
-  };
+      0, 0, 1, // world.x
+      -1, 0, 0, // world.y
+      0, -1, 0}; // world.z
+
   cv::Point3f world_pt = P * (R * cam_pt);
 
   // // 3. 바닥면 2D 거리 (X-Z 평면)
   // float distance_2d = std::sqrt(world_pt.x * world_pt.x + world_pt.z * world_pt.z);
+
+  publishBallMarkerWorldMm(world_pt, "head_1");
+  //RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", world_pt.x, world_pt.y, world_pt.z);
 
   return std::fabs(world_pt.x);
 }
@@ -237,6 +275,18 @@ void RefinerNode::depthCallback(const sensor_msgs::msg::Image::ConstSharedPtr ms
 
     std::lock_guard<std::mutex> lock(depth_mutex_);
     latest_depth_ = depth_image.clone();
+
+    // // depth → 0~255 정규화
+    // cv::Mat depth_normalized;
+    // cv::normalize(latest_depth_, depth_normalized, 0, 255, cv::NORM_MINMAX, CV_8U);
+
+    // // 컬러맵 적용
+    // cv::Mat depth_colormap;
+    // cv::applyColorMap(depth_normalized, depth_colormap, cv::COLORMAP_JET);
+
+    // // 시각화
+    // cv::imshow("Depth Colormap", depth_colormap);
+    // cv::waitKey(1); // ROS2에서 계속 갱신
   }
   catch (const cv_bridge::Exception &e)
   {

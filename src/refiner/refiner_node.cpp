@@ -206,6 +206,8 @@ void RefinerNode::bboxProcessing()
 
     vision.line_cam_x = pt2.x;
     vision.line_cam_y = pt2.y;
+    
+    Vpt.clear();
 
     // RCLCPP_INFO(this->get_logger(), "========== Line ==========");
     // RCLCPP_INFO(this->get_logger(), "Line_delta: %f", line_delta);

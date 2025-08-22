@@ -91,8 +91,8 @@ float RefinerNode::groundDistance(const cv::Point3f &cam_pt)
 
   // world.x = cam.z, world.y = -cam.x, world.z = -cam.y
   cv::Matx33f P = {
-      0, 0, 1, // world.x
-      -1, 0, 0, // world.y
+      0, 0, 1,   // world.x
+      -1, 0, 0,  // world.y
       0, -1, 0}; // world.z
 
   cv::Point3f world_pt = P * (R * cam_pt);
@@ -100,9 +100,9 @@ float RefinerNode::groundDistance(const cv::Point3f &cam_pt)
   // // 3. 바닥면 2D 거리 (X-Z 평면)
   // float distance_2d = std::sqrt(world_pt.x * world_pt.x + world_pt.z * world_pt.z);
 
-  //publishBallMarkerWorldMm(world_pt, "head_1");
+  // publishBallMarkerWorldMm(world_pt, "head_1");
 
-  //RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", world_pt.x, world_pt.y, world_pt.z);
+  // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", world_pt.x, world_pt.y, world_pt.z);
 
   return std::fabs(world_pt.x);
 }
@@ -116,6 +116,9 @@ float RefinerNode::dist2D(int u, int v)
 void RefinerNode::bboxProcessing()
 {
   if (bgr_image.empty())
+    return;
+
+  if (latest_depth_.empty())
     return;
 
   if (Detections_ball_.size() > 0)
@@ -208,7 +211,7 @@ void RefinerNode::bboxProcessing()
 
     vision.line_cam_x = pt2.x;
     vision.line_cam_y = pt2.y;
-    
+
     Vpt.clear();
 
     // RCLCPP_INFO(this->get_logger(), "========== Line ==========");

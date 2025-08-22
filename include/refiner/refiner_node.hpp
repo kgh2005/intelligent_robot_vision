@@ -14,7 +14,7 @@
 #include "intelligent_robot_vision/msg/pan_tilt.hpp"
 #include <intelligent_humanoid_interfaces/msg/vision2_master_msg.hpp>
 
-#include <visualization_msgs/msg/marker.hpp>
+// #include <visualization_msgs/msg/marker.hpp>
 
 struct DetectionResult
 {

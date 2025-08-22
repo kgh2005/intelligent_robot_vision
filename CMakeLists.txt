@@ -18,7 +18,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 find_package(intelligent_humanoid_interfaces REQUIRED)
 
-find_package(visualization_msgs REQUIRED)
+# find_package(visualization_msgs REQUIRED)
 
 set(msg_files
   "msg/BoundingBox.msg"
@@ -74,7 +74,7 @@ ament_target_dependencies(refiner_node
   cv_bridge
   std_msgs
   intelligent_humanoid_interfaces
-  visualization_msgs
+  # visualization_msgs
 )
 
 target_link_libraries(refiner_node

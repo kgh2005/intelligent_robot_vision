@@ -26,7 +26,7 @@ def generate_launch_description():
             {'enable_depth': True},
             {'enable_infra1': False},
             {'enable_infra2': False},
-            {'enable_sync': True},
+            {'enable_sync': False},
             {'enable_pointcloud': False},
             {'enable_depth_metadata': False},
             {'enable_color_metadata': False},

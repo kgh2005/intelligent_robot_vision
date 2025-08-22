@@ -36,7 +36,7 @@ private:
 
   cv::Mat bgr_image;
 
-  const int LAPTOP_CLASS_ID = 63;
+  int frame = 0;
 
   // OpenVINO 엔진
   ov::Core core_;                    // OpenVINO 런타임 코어

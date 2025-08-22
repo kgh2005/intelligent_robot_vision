@@ -2,7 +2,7 @@
 
 RefinerNode::RefinerNode() : Node("refiner_node")
 {
-  marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("ball_marker", 10);
+  // marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("ball_marker", 10);
 
   vision_pub_ = this->create_publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>("/vision/data", 10);
   bbox_sub_ = this->create_subscription<intelligent_robot_vision::msg::BoundingBox>(
@@ -35,36 +35,37 @@ RefinerNode::RefinerNode() : Node("refiner_node")
   RCLCPP_INFO(this->get_logger(), "RefinerNode initialized.");
 }
 
-void RefinerNode::publishBallMarkerWorldMm(const cv::Point3f &world_mm, const std::string &world_frame)
-{
-  visualization_msgs::msg::Marker marker;
-  marker.header.frame_id = world_frame;
-  marker.header.stamp = rclcpp::Time(0);
-  marker.ns = "ball";
-  marker.id = 0;
-  marker.type = visualization_msgs::msg::Marker::SPHERE;
-  marker.action = visualization_msgs::msg::Marker::ADD;
+// rviz2 시각화
+// void RefinerNode::publishBallMarkerWorldMm(const cv::Point3f &world_mm, const std::string &world_frame)
+// {
+//   visualization_msgs::msg::Marker marker;
+//   marker.header.frame_id = world_frame;
+//   marker.header.stamp = rclcpp::Time(0);
+//   marker.ns = "ball";
+//   marker.id = 0;
+//   marker.type = visualization_msgs::msg::Marker::SPHERE;
+//   marker.action = visualization_msgs::msg::Marker::ADD;
 
-  // mm -> m
-  marker.pose.position.x = world_mm.x / 1000.0;
-  marker.pose.position.y = world_mm.y / 1000.0;
-  marker.pose.position.z = world_mm.z / 1000.0;
+//   // mm -> m
+//   marker.pose.position.x = world_mm.x / 1000.0;
+//   marker.pose.position.y = world_mm.y / 1000.0;
+//   marker.pose.position.z = world_mm.z / 1000.0;
 
-  marker.pose.orientation.w = 1.0;
+//   marker.pose.orientation.w = 1.0;
 
-  // 구 크기 (m)
-  marker.scale.x = 0.10;
-  marker.scale.y = 0.10;
-  marker.scale.z = 0.10;
+//   // 구 크기 (m)
+//   marker.scale.x = 0.10;
+//   marker.scale.y = 0.10;
+//   marker.scale.z = 0.10;
 
-  // 색상
-  marker.color.a = 1.0;
-  marker.color.r = 1.0;
-  marker.color.g = 0.0;
-  marker.color.b = 0.0;
+//   // 색상
+//   marker.color.a = 1.0;
+//   marker.color.r = 1.0;
+//   marker.color.g = 0.0;
+//   marker.color.b = 0.0;
 
-  marker_pub_->publish(marker);
-}
+//   marker_pub_->publish(marker);
+// }
 
 cv::Point3f RefinerNode::pixelToCamCoords(int u, int v)
 {
@@ -99,7 +100,8 @@ float RefinerNode::groundDistance(const cv::Point3f &cam_pt)
   // // 3. 바닥면 2D 거리 (X-Z 평면)
   // float distance_2d = std::sqrt(world_pt.x * world_pt.x + world_pt.z * world_pt.z);
 
-  publishBallMarkerWorldMm(world_pt, "head_1");
+  //publishBallMarkerWorldMm(world_pt, "head_1");
+
   //RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", world_pt.x, world_pt.y, world_pt.z);
 
   return std::fabs(world_pt.x);
@@ -134,10 +136,10 @@ void RefinerNode::bboxProcessing()
     vision.ball_cam_y = cam_pt.y;
     vision.ball_cam_z = cam_pt.z;
 
-    RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
-    RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
-    RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
-    RCLCPP_INFO(this->get_logger(), " ");
+    // RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
+    // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
+    // RCLCPP_INFO(this->get_logger(), "2D distance: %f", distance_2d);
+    // RCLCPP_INFO(this->get_logger(), " ");
   }
   if (Detections_goal_.size() > 0)
   {

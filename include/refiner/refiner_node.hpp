@@ -61,7 +61,7 @@ private:
   intelligent_humanoid_interfaces::msg::Vision2MasterMsg vision;
   rclcpp::Publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>::SharedPtr vision_pub_;
 
-  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
+  // rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
 
   // ===== Callback =====
   void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr msg);
@@ -77,5 +77,5 @@ private:
   cv::Point3f pixelToCamCoords(int u, int v);
   float groundDistance(const cv::Point3f &cam_pt);
 
-  void publishBallMarkerWorldMm(const cv::Point3f &world_mm, const std::string &world_frame);
+  // void publishBallMarkerWorldMm(const cv::Point3f &world_mm, const std::string &world_frame);
 };

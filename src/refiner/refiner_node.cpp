@@ -4,7 +4,7 @@ RefinerNode::RefinerNode() : Node("refiner_node")
 {
   // marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("ball_marker", 10);
 
-  vision_pub_ = this->create_publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>("/vision/data", 10);
+  vision_pub_ = this->create_publisher<intelligent_humanoid_interfaces::msg::Vision2MasterMsg>("/vision", 10);
   bbox_sub_ = this->create_subscription<intelligent_robot_vision::msg::BoundingBox>(
       "/Bounding_box", 10,
       std::bind(&RefinerNode::bboxCallback, this, std::placeholders::_1));

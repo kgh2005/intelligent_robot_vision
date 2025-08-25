@@ -153,7 +153,7 @@ void DetectionNode::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr 
   try
   {
     bgr_image = cv_bridge::toCvShare(msg, "bgr8")->image.clone();
-    if (frame == 2)
+    if (frame == 1)
     {
       imageProcessing();
       frame = 0;

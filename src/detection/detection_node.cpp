@@ -146,6 +146,7 @@ void DetectionNode::imageProcessing()
   bbox_pub_->publish(bbox);
   cv::imshow("OpenVINO", bgr_image);
   cv::waitKey(1);
+  flag = 0;
 }
 
 void DetectionNode::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr msg)
@@ -153,14 +154,10 @@ void DetectionNode::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr 
   try
   {
     bgr_image = cv_bridge::toCvShare(msg, "bgr8")->image.clone();
-    if (frame == 1)
+    if (flag)
     {
+      flag = 0;
       imageProcessing();
-      frame = 0;
-    }
-    else
-    {
-      frame += 1;
     }
   }
   catch (const cv_bridge::Exception &e)

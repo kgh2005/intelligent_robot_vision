@@ -16,7 +16,7 @@ void PanTiltNode::pan_tilt_publish()
   pan_tilt.tilt = tilt_Pos_;
   pan_tilt_pub_->publish(pan_tilt);
 
-  dxl_msg.goal_position = pan_Pos_;
+  dxl_msg.goal_position = tilt_Pos_;
   dxl_msg.profile_acceleration = 0;
   dxl_msg.profile_velocity = 0;
   motor_pub_->publish(dxl_msg);

@@ -12,7 +12,7 @@ find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(OpenVINO REQUIRED)
 
-find_package(dynamixel_rdk_ros2 REQUIRED)
+find_package(dynamixel_rdk_msgs REQUIRED)
 
 find_package(std_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
@@ -97,7 +97,7 @@ ament_target_dependencies(pan_tilt_node
   rclcpp
   std_msgs
   intelligent_humanoid_interfaces
-  dynamixel_rdk_ros2
+  dynamixel_rdk_msgs
 )
 
 target_link_libraries(pan_tilt_node

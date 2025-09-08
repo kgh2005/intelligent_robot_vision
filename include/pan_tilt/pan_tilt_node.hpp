@@ -1,6 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 
-#include "dynamixel_rdk_ros2/msg/dynamixel_msgs.hpp"
+#include "dynamixel_rdk_msgs/msg/dynamixel_msgs.hpp"
 
 #include "intelligent_robot_vision/msg/pan_tilt.hpp"
 #include <intelligent_humanoid_interfaces/msg/master2_vision_msg.hpp>
@@ -17,8 +17,8 @@ private:
   // ===== ROS 통신 =====
   rclcpp::Subscription<intelligent_humanoid_interfaces::msg::Master2VisionMsg>::SharedPtr pan_tilt_sub_;
 
-  dynamixel_rdk_ros2::msg::DynamixelMsgs dxl_msg;
-  rclcpp::Publisher<dynamixel_rdk_ros2::msg::DynamixelMsgs>::SharedPtr motor_pub_;
+  dynamixel_rdk_msgs::msg::DynamixelMsgs dxl_msg;
+  rclcpp::Publisher<dynamixel_rdk_msgs::msg::DynamixelMsgs>::SharedPtr motor_pub_;
   intelligent_robot_vision::msg::PanTilt pan_tilt;
   rclcpp::Publisher<intelligent_robot_vision::msg::PanTilt>::SharedPtr pan_tilt_pub_;
 

@@ -2,7 +2,7 @@
 
 PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
 {
-  motor_pub_ = this->create_publisher<dynamixel_rdk_ros2::msg::DynamixelMsgs>("/pan_tilt_dxl", 10);
+  motor_pub_ = this->create_publisher<dynamixel_rdk_msgs::msg::DynamixelMsgs>("/pan_tilt_dxl", 10);
   pan_tilt_pub_ = this->create_publisher<intelligent_robot_vision::msg::PanTilt>("/PanTilt", 10);
   pan_tilt_sub_ = this->create_subscription<intelligent_humanoid_interfaces::msg::Master2VisionMsg>(
       "/master/pan_tilt", 10,
@@ -13,7 +13,7 @@ PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
 void PanTiltNode::pan_tilt_publish()
 {
   pan_tilt.pan = pan_Pos_;
-  pan_tilt.tilt = tilt_Pos_;
+  pan_tilt.tilt = tilt_Pos_ * (-1);
   pan_tilt_pub_->publish(pan_tilt);
 
   dxl_msg.goal_position = tilt_Pos_;

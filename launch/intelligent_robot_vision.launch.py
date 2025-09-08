@@ -10,6 +10,12 @@ def generate_launch_description():
         'best.xml'
     )
 
+    tilt_info = os.path.join(
+        get_package_share_directory('robocup_vision'),
+        'config',
+        'tilt_config.yaml'
+    )
+
     # Realsense 카메라 노드 (단일 노드)
     realsense_node = Node(
         package='realsense2_camera',
@@ -56,7 +62,8 @@ def generate_launch_description():
         package='intelligent_robot_vision',
         executable='pan_tilt_node',
         name='pan_tilt_node',
-        output='screen'
+        output='screen',
+        parameters=[tilt_info]
     )
 
     return LaunchDescription([

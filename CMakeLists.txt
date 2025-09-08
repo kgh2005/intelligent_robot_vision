@@ -111,12 +111,10 @@ install(TARGETS
 )
 # ============================================================
 
-install(DIRECTORY model
-  DESTINATION share/${PROJECT_NAME}
-)
-
-
-install(DIRECTORY launch
+install(DIRECTORY 
+  model
+  launch
+  config
   DESTINATION share/${PROJECT_NAME}
 )
 

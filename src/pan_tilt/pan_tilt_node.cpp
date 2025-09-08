@@ -2,18 +2,38 @@
 
 PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
 {
-  motor_pub_ = this->create_publisher<dynamixel_rdk_msgs::msg::DynamixelMsgs>("/pan_tilt_dxl", 10);
+  motor_pub_ = this->create_publisher<dynamixel_rdk_msgs::msg::DynamixelMsgs>("pan_dxl", 10);
   pan_tilt_pub_ = this->create_publisher<intelligent_robot_vision::msg::PanTilt>("/PanTilt", 10);
   pan_tilt_sub_ = this->create_subscription<intelligent_humanoid_interfaces::msg::Master2VisionMsg>(
       "/master/pan_tilt", 10,
       std::bind(&PanTiltNode::pantiltCallback, this, std::placeholders::_1));
   RCLCPP_INFO(this->get_logger(), "pan_tilt_node started.");
+
+  get_params();
+
+  RCLCPP_INFO(this->get_logger(), "init: %d", init);
+  RCLCPP_INFO(this->get_logger(), "ball: %d", ball);
+  RCLCPP_INFO(this->get_logger(), "goal: %d", goal);
+  RCLCPP_INFO(this->get_logger(), "hurdle: %d", hurdle);
+}
+
+void PanTiltNode::get_params()
+{
+  this->declare_parameter("init", init);
+  this->declare_parameter("ball", ball);
+  this->declare_parameter("goal", goal);
+  this->declare_parameter("hurdle", hurdle);
+
+  this->get_parameter("init", init);
+  this->get_parameter("ball", ball);
+  this->get_parameter("goal", goal);
+  this->get_parameter("hurdle", hurdle);
 }
 
 void PanTiltNode::pan_tilt_publish()
 {
   pan_tilt.pan = pan_Pos_;
-  pan_tilt.tilt = tilt_Pos_ * (-1);
+  pan_tilt.tilt = tilt_Pos_;
   pan_tilt_pub_->publish(pan_tilt);
 
   dxl_msg.goal_position = tilt_Pos_;
@@ -33,7 +53,7 @@ void PanTiltNode::pan_tilt_mode()
   case 0: // init
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = -55;
+    tilt_Pos_ = 15;
     pan_tilt_publish();
     break;
   }
@@ -41,7 +61,7 @@ void PanTiltNode::pan_tilt_mode()
   case 1: // 공 - 트레킹모드 - tilt 45도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = -55;
+    tilt_Pos_ = 15;
     pan_tilt_publish();
     break;
   }
@@ -57,7 +77,7 @@ void PanTiltNode::pan_tilt_mode()
   case 3: // 허들 - 트레킹모드 - tilt 90도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = -80;
+    tilt_Pos_ = 30;
     pan_tilt_publish();
     break;
   }

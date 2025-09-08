@@ -1,0 +1,6 @@
+/**:
+  ros__parameters:
+    init: "15"
+    ball: "15"
+    goal: "0"
+    hurdle: "30"

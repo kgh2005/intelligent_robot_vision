@@ -1,6 +1,7 @@
 /**:
   ros__parameters:
-    init: 15
-    ball: 15
+    init: 25
+    ball: 25
+    ball_grap: 25
     goal: 0
-    hurdle: 30
+    hurdle: 40

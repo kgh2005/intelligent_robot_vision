@@ -21,11 +21,13 @@ void PanTiltNode::get_params()
 {
   this->declare_parameter("init", init);
   this->declare_parameter("ball", ball);
+  this->declare_parameter("ball", ball_grap);
   this->declare_parameter("goal", goal);
   this->declare_parameter("hurdle", hurdle);
 
   this->get_parameter("init", init);
   this->get_parameter("ball", ball);
+  this->get_parameter("ball", ball_grap);
   this->get_parameter("goal", goal);
   this->get_parameter("hurdle", hurdle);
 }
@@ -53,7 +55,7 @@ void PanTiltNode::pan_tilt_mode()
   case 0: // init
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 15;
+    tilt_Pos_ = init;
     pan_tilt_publish();
     break;
   }
@@ -61,23 +63,30 @@ void PanTiltNode::pan_tilt_mode()
   case 1: // 공 - 트레킹모드 - tilt 45도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 15;
+    tilt_Pos_ = ball;
+    pan_tilt_publish();
+    break;
+  }
+  case 2: // 공 잡기 - 트레킹모드 - tilt 45도
+  {
+    pan_Pos_ = 0;
+    tilt_Pos_ = ball_grap;
     pan_tilt_publish();
     break;
   }
 
-  case 2: // 골대 - 트레킹모드 - tilt 0도
+  case 3: // 골대 - 트레킹모드 - tilt 0도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 0;
+    tilt_Pos_ = goal;
     pan_tilt_publish();
     break;
   }
 
-  case 3: // 허들 - 트레킹모드 - tilt 90도
+  case 4: // 허들 - 트레킹모드 - tilt 90도
   {
     pan_Pos_ = 0;
-    tilt_Pos_ = 30;
+    tilt_Pos_ = hurdle;
     pan_tilt_publish();
     break;
   }

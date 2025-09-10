@@ -14,7 +14,7 @@ private:
   int pan_Pos_ = 0, tilt_Pos_ = 0;
   int mode = 2;
 
-  int init = 15, ball = 15, goal = 0, hurdle = 30;
+  int init = 15, ball = 15, ball_grap = 15, goal = 0, hurdle = 30;
 
   // ===== ROS 통신 =====
   rclcpp::Subscription<intelligent_humanoid_interfaces::msg::Master2VisionMsg>::SharedPtr pan_tilt_sub_;

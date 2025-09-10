@@ -11,7 +11,7 @@ def generate_launch_description():
     )
 
     tilt_info = os.path.join(
-        get_package_share_directory('robocup_vision'),
+        get_package_share_directory('intelligent_robot_vision'),
         'config',
         'tilt_config.yaml'
     )

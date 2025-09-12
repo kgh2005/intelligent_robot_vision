@@ -129,18 +129,47 @@ void DetectionNode::imageProcessing()
       continue;
     }
 
-    // 저장
-    bbox.class_ids.push_back(class_id);
-    bbox.score.push_back(confidence);
-    bbox.x1.push_back(bx1);
-    bbox.y1.push_back(by1);
-    bbox.x2.push_back(bx2);
-    bbox.y2.push_back(by2);
-    // 시각화
-    cv::Point pt1(bx1, by1);
-    cv::Point pt2(bx2, by2);
+    if (class_id == 2) // 허들
+    {
+      if (det.score > confidence)
+      {
+        DetectionResult det;
+        det.class_id = class_id;
+        det.score = confidence;
+        det.bx1 = bx1;
+        det.by1 = by1;
+        det.bx2 = bx2;
+        det.by2 = by2;
 
-    cv::rectangle(bgr_image, cv::Rect(pt1, pt2), COLORS.at(class_id), 2);
+        // 저장
+        bbox.class_ids.push_back(class_id);
+        bbox.score.push_back(confidence);
+        bbox.x1.push_back(bx1);
+        bbox.y1.push_back(by1);
+        bbox.x2.push_back(bx2);
+        bbox.y2.push_back(by2);
+        // 시각화
+        cv::Point pt1(bx1, by1);
+        cv::Point pt2(bx2, by2);
+
+        cv::rectangle(bgr_image, cv::Rect(pt1, pt2), COLORS.at(class_id), 2);
+      }
+    }
+    else
+    {
+      // 저장
+      bbox.class_ids.push_back(class_id);
+      bbox.score.push_back(confidence);
+      bbox.x1.push_back(bx1);
+      bbox.y1.push_back(by1);
+      bbox.x2.push_back(bx2);
+      bbox.y2.push_back(by2);
+      // 시각화
+      cv::Point pt1(bx1, by1);
+      cv::Point pt2(bx2, by2);
+
+      cv::rectangle(bgr_image, cv::Rect(pt1, pt2), COLORS.at(class_id), 2);
+    }
   }
 
   bbox_pub_->publish(bbox);

@@ -8,6 +8,8 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 
+#include <vector>
+
 #include "intelligent_robot_vision/msg/bounding_box.hpp"
 
 // 클래스별 confidence threshold 설정
@@ -24,6 +26,16 @@ const std::map<int, cv::Scalar> COLORS = {
     {1, cv::Scalar(0, 255, 0)},   // 초록색
     {2, cv::Scalar(0, 255, 255)}, // 노란색
     {3, cv::Scalar(255, 0, 0)},   // 파란색
+};
+
+struct DetectionResult
+{
+  int class_id;
+  float score;
+  int bx1;
+  int by1;
+  int bx2;
+  int by2;
 };
 
 class DetectionNode : public rclcpp::Node

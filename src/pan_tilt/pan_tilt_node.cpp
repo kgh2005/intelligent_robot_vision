@@ -21,13 +21,13 @@ void PanTiltNode::get_params()
 {
   this->declare_parameter("init", init);
   this->declare_parameter("ball", ball);
-  this->declare_parameter("ball", ball_grap);
+  this->declare_parameter("ball_grap", ball_grap);
   this->declare_parameter("goal", goal);
   this->declare_parameter("hurdle", hurdle);
 
   this->get_parameter("init", init);
   this->get_parameter("ball", ball);
-  this->get_parameter("ball", ball_grap);
+  this->get_parameter("ball_grap", ball_grap);
   this->get_parameter("goal", goal);
   this->get_parameter("hurdle", hurdle);
 }

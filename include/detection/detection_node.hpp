@@ -28,16 +28,6 @@ const std::map<int, cv::Scalar> COLORS = {
     {3, cv::Scalar(255, 0, 0)},   // 파란색
 };
 
-struct DetectionResult
-{
-  int class_id;
-  float score;
-  int bx1;
-  int by1;
-  int bx2;
-  int by2;
-};
-
 class DetectionNode : public rclcpp::Node
 {
 public:
@@ -47,6 +37,8 @@ private:
   cv::Mat K_M, D_M, R_M, P_M;
 
   cv::Mat bgr_image;
+
+  double most_conf;
 
   int flag = 1;
 

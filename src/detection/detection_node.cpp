@@ -88,6 +88,7 @@ void DetectionNode::imageProcessing()
   bbox.x2.clear();
   bbox.y2.clear();
 
+  most_conf = CONFIDENCE_THRESHOLDS.at(2);
   // ---- 3. detection 후처리 ----
   for (size_t detection_idx = 0; detection_idx < num_detections; detection_idx++)
   {
@@ -131,16 +132,9 @@ void DetectionNode::imageProcessing()
 
     if (class_id == 2) // 허들
     {
-      if (det.score > confidence)
+      if (confidence > most_conf)
       {
-        DetectionResult det;
-        det.class_id = class_id;
-        det.score = confidence;
-        det.bx1 = bx1;
-        det.by1 = by1;
-        det.bx2 = bx2;
-        det.by2 = by2;
-
+        most_conf = confidence;
         // 저장
         bbox.class_ids.push_back(class_id);
         bbox.score.push_back(confidence);

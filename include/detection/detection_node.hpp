@@ -16,7 +16,7 @@
 const std::map<int, float> CONFIDENCE_THRESHOLDS = {
     {0, 0.5f},
     {1, 0.5f},
-    {2, 0.5f},
+    {2, 0.3f},
     {3, 0.5f},
 };
 

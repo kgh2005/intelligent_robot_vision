@@ -16,6 +16,8 @@ private:
 
   int init = 15, ball = 15, ball_grap = 15, goal = 0, hurdle = 30;
 
+  rclcpp::TimerBase::SharedPtr timer_;
+
   // ===== ROS 통신 =====
   rclcpp::Subscription<intelligent_humanoid_interfaces::msg::Master2VisionMsg>::SharedPtr pan_tilt_sub_;
 
@@ -30,6 +32,7 @@ private:
   // ===== Data Processing =====
   void pan_tilt_mode();
   void pan_tilt_publish();
+  void pan_tilt_dxl();
 
   // ===== Params =====
   void get_params();

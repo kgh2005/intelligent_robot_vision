@@ -15,6 +15,13 @@ PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
   RCLCPP_INFO(this->get_logger(), "ball: %d", ball);
   RCLCPP_INFO(this->get_logger(), "goal: %d", goal);
   RCLCPP_INFO(this->get_logger(), "hurdle: %d", hurdle);
+
+  pan_tilt_dxl();
+  pan_tilt_publish();
+
+  timer_ = this->create_wall_timer(
+      std::chrono::milliseconds(100),
+      std::bind(&PanTiltNode::pan_tilt_dxl, this));
 }
 
 void PanTiltNode::get_params()
@@ -32,16 +39,19 @@ void PanTiltNode::get_params()
   this->get_parameter("hurdle", hurdle);
 }
 
+void PanTiltNode::pan_tilt_dxl()
+{
+  dxl_msg.goal_position = tilt_Pos_;
+  dxl_msg.profile_acceleration = 0;
+  dxl_msg.profile_velocity = 0;
+  motor_pub_->publish(dxl_msg);
+}
+
 void PanTiltNode::pan_tilt_publish()
 {
   pan_tilt.pan = pan_Pos_;
   pan_tilt.tilt = tilt_Pos_;
   pan_tilt_pub_->publish(pan_tilt);
-
-  dxl_msg.goal_position = tilt_Pos_;
-  dxl_msg.profile_acceleration = 0;
-  dxl_msg.profile_velocity = 0;
-  motor_pub_->publish(dxl_msg);
 
   // RCLCPP_INFO(this->get_logger(), "========== Pan_Tilt ==========");
   // RCLCPP_INFO(this->get_logger(), "Pan: %d, Tilt: %d", pan_Pos_, tilt_Pos_);
@@ -57,6 +67,7 @@ void PanTiltNode::pan_tilt_mode()
     pan_Pos_ = 0;
     tilt_Pos_ = init;
     pan_tilt_publish();
+    pan_tilt_dxl();
     break;
   }
 
@@ -65,6 +76,7 @@ void PanTiltNode::pan_tilt_mode()
     pan_Pos_ = 0;
     tilt_Pos_ = ball;
     pan_tilt_publish();
+    pan_tilt_dxl();
     break;
   }
   case 2: // 공 잡기 - 트레킹모드 - tilt 45도
@@ -72,6 +84,7 @@ void PanTiltNode::pan_tilt_mode()
     pan_Pos_ = 0;
     tilt_Pos_ = ball_grap;
     pan_tilt_publish();
+    pan_tilt_dxl();
     break;
   }
 
@@ -80,6 +93,7 @@ void PanTiltNode::pan_tilt_mode()
     pan_Pos_ = 0;
     tilt_Pos_ = goal;
     pan_tilt_publish();
+    pan_tilt_dxl();
     break;
   }
 
@@ -88,6 +102,7 @@ void PanTiltNode::pan_tilt_mode()
     pan_Pos_ = 0;
     tilt_Pos_ = hurdle;
     pan_tilt_publish();
+    pan_tilt_dxl();
     break;
   }
 

@@ -16,8 +16,7 @@ PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
   RCLCPP_INFO(this->get_logger(), "goal: %d", goal);
   RCLCPP_INFO(this->get_logger(), "hurdle: %d", hurdle);
 
-  pan_tilt_dxl();
-  pan_tilt_publish();
+  pan_tilt_mode();
 
   timer_ = this->create_wall_timer(
       std::chrono::milliseconds(100),

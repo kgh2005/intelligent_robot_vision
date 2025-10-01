@@ -229,7 +229,7 @@ void RefinerNode::bboxProcessing()
 
 void RefinerNode::pan_tilt_Callback(const intelligent_robot_vision::msg::PanTilt::SharedPtr msg)
 {
-  tilt_deg = msg->tilt;
+  tilt_deg = msg->tilt * -1;
 }
 
 void RefinerNode::bboxCallback(const intelligent_robot_vision::msg::BoundingBox::SharedPtr msg)

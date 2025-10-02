@@ -13,6 +13,7 @@ PanTiltNode::PanTiltNode() : rclcpp::Node("pan_tilt_node")
 
   RCLCPP_INFO(this->get_logger(), "init: %d", init);
   RCLCPP_INFO(this->get_logger(), "ball: %d", ball);
+  RCLCPP_INFO(this->get_logger(), "ball_grap: %d", ball_grap);
   RCLCPP_INFO(this->get_logger(), "goal: %d", goal);
   RCLCPP_INFO(this->get_logger(), "hurdle: %d", hurdle);
 

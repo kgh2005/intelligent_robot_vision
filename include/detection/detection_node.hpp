@@ -38,7 +38,8 @@ private:
 
   cv::Mat bgr_image;
 
-  double most_conf;
+  double most_hurdle_conf;
+  double most_goal_conf;
 
   int flag = 1;
 

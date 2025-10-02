@@ -88,7 +88,8 @@ void DetectionNode::imageProcessing()
   bbox.x2.clear();
   bbox.y2.clear();
 
-  most_conf = CONFIDENCE_THRESHOLDS.at(2);
+  most_hurdle_conf = CONFIDENCE_THRESHOLDS.at(2);
+  most_goal_conf = CONFIDENCE_THRESHOLDS.at(1);
   // ---- 3. detection 후처리 ----
   for (size_t detection_idx = 0; detection_idx < num_detections; detection_idx++)
   {
@@ -132,9 +133,28 @@ void DetectionNode::imageProcessing()
 
     if (class_id == 2) // 허들
     {
-      if (confidence > most_conf)
+      if (confidence > most_hurdle_conf)
       {
-        most_conf = confidence;
+        most_hurdle_conf = confidence;
+        // 저장
+        bbox.class_ids.push_back(class_id);
+        bbox.score.push_back(confidence);
+        bbox.x1.push_back(bx1);
+        bbox.y1.push_back(by1);
+        bbox.x2.push_back(bx2);
+        bbox.y2.push_back(by2);
+        // 시각화
+        cv::Point pt1(bx1, by1);
+        cv::Point pt2(bx2, by2);
+
+        cv::rectangle(bgr_image, cv::Rect(pt1, pt2), COLORS.at(class_id), 2);
+      }
+    }
+    else if (class_id == 1) // goal
+    {
+      if (confidence > most_goal_conf)
+      {
+        most_goal_conf = confidence;
         // 저장
         bbox.class_ids.push_back(class_id);
         bbox.score.push_back(confidence);

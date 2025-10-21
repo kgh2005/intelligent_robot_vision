@@ -190,7 +190,7 @@ void DetectionNode::imageProcessing()
     }
   }
 
-  if (ball_flag == 0)
+  if (ball_flag == 0 || bbox.class_ids.empty())
   {
     // 공이 검출되지 않은 경우 -999로 초기화
     bbox.class_ids.push_back(-999);

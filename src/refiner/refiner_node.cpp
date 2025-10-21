@@ -125,19 +125,30 @@ void RefinerNode::bboxProcessing()
   {
     const auto &bbox = Detections_ball_[0].bbox; // 첫 번째 객체의 bbox
 
-    int u = bbox.x + bbox.width / 2;
-    int v = bbox.y + bbox.height / 2;
+    if (bbox.x == -999)
+    {
+      vision.ball_dist = -999;
 
-    cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
-    float distance_2d = dist2D(u, v);            // 2D 거리
+      vision.ball_cam_x = -999;
+      vision.ball_cam_y = -999;
+      vision.ball_cam_z = -999;
+    }
+    else
+    {
+      int u = bbox.x + bbox.width / 2;
+      int v = bbox.y + bbox.height / 2;
 
-    cv::circle(bgr_image, cv::Point(u, v), 2, cv::Scalar(0, 255, 0), -1);
+      cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
+      float distance_2d = dist2D(u, v);            // 2D 거리
 
-    vision.ball_dist = distance_2d;
+      cv::circle(bgr_image, cv::Point(u, v), 2, cv::Scalar(0, 255, 0), -1);
 
-    vision.ball_cam_x = cam_pt.x;
-    vision.ball_cam_y = cam_pt.y;
-    vision.ball_cam_z = cam_pt.z;
+      vision.ball_dist = distance_2d;
+
+      vision.ball_cam_x = cam_pt.x;
+      vision.ball_cam_y = cam_pt.y;
+      vision.ball_cam_z = cam_pt.z;
+    }
 
     // RCLCPP_INFO(this->get_logger(), "========== Ball ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);

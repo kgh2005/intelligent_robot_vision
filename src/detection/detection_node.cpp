@@ -171,6 +171,10 @@ void DetectionNode::imageProcessing()
     }
     else
     {
+      if (class_id == 0)
+      {
+        ball_flag = 1;
+      }
       // 저장
       bbox.class_ids.push_back(class_id);
       bbox.score.push_back(confidence);
@@ -184,6 +188,19 @@ void DetectionNode::imageProcessing()
 
       cv::rectangle(bgr_image, cv::Rect(pt1, pt2), COLORS.at(class_id), 2);
     }
+  }
+
+  if (ball_flag == 0)
+  {
+    // 공이 검출되지 않은 경우 -999로 초기화
+    bbox.class_ids.push_back(-999);
+    bbox.score.push_back(100.0);
+    bbox.x1.push_back(-999);
+    bbox.y1.push_back(-999);
+    bbox.x2.push_back(-999);
+    bbox.y2.push_back(-999);
+
+    ball_flag = 0;
   }
 
   bbox_pub_->publish(bbox);

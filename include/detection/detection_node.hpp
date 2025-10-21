@@ -42,6 +42,7 @@ private:
   double most_goal_conf;
 
   int flag = 1;
+  int ball_flag = 0;
 
   // OpenVINO 엔진
   ov::Core core_;                    // OpenVINO 런타임 코어

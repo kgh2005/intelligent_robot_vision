@@ -133,6 +133,7 @@ void DetectionNode::imageProcessing()
 
     if (class_id == 2) // 허들
     {
+      hurdle_flag = 1;
       if (confidence > most_hurdle_conf)
       {
         most_hurdle_conf = confidence;
@@ -152,6 +153,7 @@ void DetectionNode::imageProcessing()
     }
     else if (class_id == 1) // goal
     {
+      goal_flag = 1;
       if (confidence > most_goal_conf)
       {
         most_goal_conf = confidence;
@@ -190,7 +192,32 @@ void DetectionNode::imageProcessing()
     }
   }
 
-  if (ball_flag == 0 || bbox.class_ids.empty())
+  if (bbox.class_ids.empty())
+  {
+    // 아무것도 검출되지 않은 경우
+    bbox.class_ids.push_back(0);
+    bbox.score.push_back(100.0);
+    bbox.x1.push_back(-999);
+    bbox.y1.push_back(-999);
+    bbox.x2.push_back(-999);
+    bbox.y2.push_back(-999);
+
+    bbox.class_ids.push_back(1);
+    bbox.score.push_back(100.0);
+    bbox.x1.push_back(-999);
+    bbox.y1.push_back(-999);
+    bbox.x2.push_back(-999);
+    bbox.y2.push_back(-999);
+
+    bbox.class_ids.push_back(2);
+    bbox.score.push_back(100.0);
+    bbox.x1.push_back(-999);
+    bbox.y1.push_back(-999);
+    bbox.x2.push_back(-999);
+    bbox.y2.push_back(-999);
+  }
+
+  if (ball_flag == 0)
   {
     // 공이 검출되지 않은 경우 -999로 초기화
     bbox.class_ids.push_back(0);
@@ -199,14 +226,36 @@ void DetectionNode::imageProcessing()
     bbox.y1.push_back(-999);
     bbox.x2.push_back(-999);
     bbox.y2.push_back(-999);
-
-    ball_flag = 0;
+  }
+  if (goal_flag == 0)
+  {
+    // 골대가 검출되지 않은 경우 -999로 초기화
+    bbox.class_ids.push_back(1);
+    bbox.score.push_back(100.0);
+    bbox.x1.push_back(-999);
+    bbox.y1.push_back(-999);
+    bbox.x2.push_back(-999);
+    bbox.y2.push_back(-999);
+  }
+  if (hurdle_flag == 0)
+  {
+    // 허들이 검출되지 않은 경우 -999로 초기화
+    bbox.class_ids.push_back(2);
+    bbox.score.push_back(100.0);
+    bbox.x1.push_back(-999);
+    bbox.y1.push_back(-999);
+    bbox.x2.push_back(-999);
+    bbox.y2.push_back(-999);
   }
 
   bbox_pub_->publish(bbox);
   cv::imshow("OpenVINO", bgr_image);
   cv::waitKey(1);
   flag = 1;
+  
+  ball_flag = 0;
+  goal_flag = 0;
+  hurdle_flag = 0;
 }
 
 void DetectionNode::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr msg)

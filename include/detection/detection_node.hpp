@@ -43,6 +43,9 @@ private:
 
   int flag = 1;
   int ball_flag = 0;
+  int goal_flag = 0;
+  int hurdle_flag = 0;
+
 
   // OpenVINO 엔진
   ov::Core core_;                    // OpenVINO 런타임 코어

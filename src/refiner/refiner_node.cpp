@@ -159,16 +159,26 @@ void RefinerNode::bboxProcessing()
   {
     const auto &bbox = Detections_goal_[0].bbox; // 첫 번째 객체의 bbox
 
-    int u = bbox.x + bbox.width / 2;
-    int v = bbox.y + bbox.height / 2;
+    if (bbox.x == -999)
+    {
+      vision.goal_dist = -999;
 
-    cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
-    float distance_2d = dist2D(u, v);            // 2D 거리
+      vision.goal_cam_x = -999;
+      vision.goal_cam_y = -999;
+    }
+    else
+    {
+      int u = bbox.x + bbox.width / 2;
+      int v = bbox.y + bbox.height / 2;
 
-    vision.goal_dist = distance_2d;
+      cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
+      float distance_2d = dist2D(u, v);            // 2D 거리
 
-    vision.goal_cam_x = cam_pt.x;
-    vision.goal_cam_y = cam_pt.y;
+      vision.goal_dist = distance_2d;
+
+      vision.goal_cam_x = cam_pt.x;
+      vision.goal_cam_y = cam_pt.y;
+    }
 
     // RCLCPP_INFO(this->get_logger(), "========== goal ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
@@ -179,16 +189,26 @@ void RefinerNode::bboxProcessing()
   {
     const auto &bbox = Detections_hurdle_[0].bbox; // 첫 번째 객체의 bbox
 
-    int u = bbox.x + bbox.width / 2;
-    int v = bbox.y + bbox.height / 2;
+    if (bbox.x == -999)
+    {
+      vision.hurdle_dist = -999;
 
-    cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
-    float distance_2d = dist2D(u, v);            // 2D 거리
+      vision.hurdle_cam_x = -999;
+      vision.hurdle_cam_y = -999;
+    }
+    else
+    {
+      int u = bbox.x + bbox.width / 2;
+      int v = bbox.y + bbox.height / 2;
 
-    vision.hurdle_dist = distance_2d;
+      cv::Point3f cam_pt = pixelToCamCoords(u, v); // 카메라 좌표계로 변환
+      float distance_2d = dist2D(u, v);            // 2D 거리
 
-    vision.hurdle_cam_x = cam_pt.x;
-    vision.hurdle_cam_y = cam_pt.y;
+      vision.hurdle_dist = distance_2d;
+
+      vision.hurdle_cam_x = cam_pt.x;
+      vision.hurdle_cam_y = cam_pt.y;
+    }
 
     // RCLCPP_INFO(this->get_logger(), "========== Hurdle ==========");
     // RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f", cam_pt.x, cam_pt.y, cam_pt.z);
